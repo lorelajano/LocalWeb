@@ -17,7 +17,6 @@ class AddBirthdayFieldToUsersTable extends Migration
             $table->date('birthday');
         });
     }
-
     /**
      * Reverse the migrations.
      *
