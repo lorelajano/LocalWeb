@@ -5,14 +5,41 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">{{ __('List with all Users') }}</div>
 
                     <div class="card-body">
-                        @foreach($users as $user)
-                            {{$user->name}} - {{$user->email}} - {{$user->birthday}}
 
-
-                        @endforeach
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Birthday</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <th scope="row">{{$user->id}}</th>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->birthday}}</td>
+                                    <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray())}}</td>
+                                    <td>
+                                        <a href="{{route('admin.users.edit', $user->id)}}">
+                                        <button type="button" class="btn btn-primary">Edit</button>
+                                        </a>
+                                        <a href="{{route('admin.users.destroy', $user->id)}}">
+                                            <button type="button" class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                     </div>
                 </div>
             </div>

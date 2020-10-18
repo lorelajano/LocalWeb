@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -23,7 +24,20 @@ class UsersController extends Controller
 return view('admin.users.index')->with('users', $users);
     }
 
+public function edit(User $user){
+        $roles=Role::all();
+        return view('admin.users.edit')->with([
+            'user'=>$user,
+            'roles'=>$roles
 
+        ]);
+
+}
+
+public function update(Request $request, User $user){
+        $user->roles()->sync($request->roles);
+        return redirect()->route('admin.users.index');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -33,6 +47,8 @@ return view('admin.users.index')->with('users', $users);
      */
     public function destroy(User $user)
     {
-        //
+        $user->roles()->detach();
+        $user->delete();
+        return redirect()->route('admin.users.index');
     }
 }

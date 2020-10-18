@@ -1,0 +1,50 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+Use DB;
+use App\User;
+use App\Role;
+
+class UsersTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        User::truncate();
+        DB::table('role_user')->truncate();
+
+        $adminRole=Role::where('name','admin')->first();
+        $managerRole=Role::where('name','manager')->first();
+        $userRole=Role::where('name','user')->first();
+
+        $admin= User::create([
+            'name'=>'System Admin',
+            'email'=>'admin@admin.al',
+            'password'=>Hash::make('Admin@12345')
+
+        ]);
+        $manager= User::create([
+            'name'=>'System Manager',
+            'email'=>'manager@manager.al',
+            'password'=>Hash::make('Manager@12345')
+
+        ]);
+        $user= User::create([
+            'name'=>'Simple User',
+            'email'=>'user@user.al',
+            'password'=>Hash::make('User@12345')
+
+        ]);
+
+        $admin->roles()->attach($adminRole);
+        $manager->roles()->attach($managerRole);
+        $user->roles()->attach($userRole);
+    }
+}

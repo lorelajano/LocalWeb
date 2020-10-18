@@ -24,6 +24,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
     Route::resource('users', UsersController::class)->only([
-        'index', 'destroy'
+        'index', 'destroy','edit','update'
     ]);
 });
