@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
+    Route::resource('users', UsersController::class)->only([
+        'index', 'destroy'
+    ]);
+});
