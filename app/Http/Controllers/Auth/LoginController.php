@@ -34,10 +34,10 @@ class LoginController extends Controller
     if (Auth::user()->hasAnyRoles(['admin', 'manager'])){
         $this->redirectTo = route('admin.users.index');
         return $this->redirectTo;
-    }else if(Auth::user()->calculateAge(Auth::user()) > 18){
+    }else if(Auth::user()->checkAge(Auth::user()) > 18){
     $this->redirectTo = route('home');
         return $this->redirectTo;
-    }else  $this->redirectTo = route('user.upload.id');
+    }else  $this->redirectTo = route('user.permission.index');
         return $this->redirectTo;
 
     }

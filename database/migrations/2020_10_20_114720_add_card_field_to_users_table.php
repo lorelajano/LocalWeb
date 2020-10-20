@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBirthdayFieldToUsersTable extends Migration
+class AddCardFieldToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,10 @@ class AddBirthdayFieldToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('birthday')->nullable();
+            $table->string('card')->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -25,7 +26,7 @@ class AddBirthdayFieldToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('birthday');
+            $table->dropColumn('card');
         });
     }
 }

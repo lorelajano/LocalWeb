@@ -58,9 +58,11 @@ class User extends Authenticatable
         }return false;
     }
 
-    public function calculateAge($user){
+    public function checkAge($user){
 
-        $age = Carbon::parse($user->birthday)->diff(Carbon::now())->format('%y years, %m months and %d days');
-        return $age;
+        $age = Carbon::parse($this->birthday)->diff(Carbon::now())->format('%y years, %m months and %d days');
+        if ($age>18){
+            return true;
+        }return false;
     }
 }

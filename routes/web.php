@@ -29,9 +29,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
 });
 
 Route::namespace('User')->prefix('user')->name('user.')->group(function(){
-//    Route::resource('user', UserController::class)->only([
-//        'index', 'destroy','edit','update'
-//    ]);
+    Route::resource('permission', PermissionController::class)->only([
+        'index', 'create','edit','update'
+    ]);
 
-    Route::match(['get', 'post'], '/upload-id', 'PermissionController@index')->name('upload.id');;
+
 });

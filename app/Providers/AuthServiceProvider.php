@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('admin');
         });
 
+        Gate::define('age-checked', function($user){
+            return $user->checkAge(Auth::user());
+        });
 
     }
 }
