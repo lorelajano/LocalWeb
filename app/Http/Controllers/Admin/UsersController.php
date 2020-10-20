@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
+use Gate;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -25,6 +26,10 @@ return view('admin.users.index')->with('users', $users);
     }
 
 public function edit(User $user){
+
+        if(Gate::denies('edit-users')){
+            return redirect(route('admin.users.index'));
+        }
         $roles=Role::all();
         return view('admin.users.edit')->with([
             'user'=>$user,
@@ -42,12 +47,17 @@ public function update(Request $request, User $user){
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
+        if(Gate::denies('delete-users')){
+            return redirect(route('admin.users.index'));
+        }
         $user->roles()->detach();
+
         $user->delete();
         return redirect()->route('admin.users.index');
     }

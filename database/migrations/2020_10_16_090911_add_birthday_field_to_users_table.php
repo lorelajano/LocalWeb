@@ -14,7 +14,7 @@ class AddBirthdayFieldToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('birthday');
+            $table->date('birthday')->default(null);
         });
     }
     /**

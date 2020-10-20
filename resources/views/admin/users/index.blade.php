@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('List with all Users') }}</div>
+                    <div class="card-header">{{ __('Lista e përdoruesve') }}</div>
 
                     <div class="card-body">
 
@@ -13,11 +13,11 @@
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Emri</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Birthday</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">Datelindja</th>
+                                    <th scope="col">Roli</th>
+                                    <th scope="col">Veprimet</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -29,12 +29,19 @@
                                     <td>{{$user->birthday}}</td>
                                     <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray())}}</td>
                                     <td>
+                                        @can('edit-users')
                                         <a href="{{route('admin.users.edit', $user->id)}}">
-                                        <button type="button" class="btn btn-primary">Edit</button>
+                                        <button type="button" class="btn btn-primary float-left">Edit</button>
                                         </a>
-                                        <a href="{{route('admin.users.destroy', $user->id)}}">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                        </a>
+                                        @endcan
+
+                                        @can('delete-users')
+                                        <form action="{{route('admin.users.destroy', $user)}}" method="POST" class="float-left">
+                                            @csrf
+                                            {{ method_field('DELETE') }}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach

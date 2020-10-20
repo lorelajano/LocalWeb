@@ -62,13 +62,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a  class="dropdown-item" href="{{route('admin.users.index')}}">
-                                        User Management
-                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Dil') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -76,6 +73,13 @@
                                     </form>
                                 </div>
                             </li>
+                        @can('manage-users')
+                        <li class="nav-item dropdown">
+                            <a  class="nav-link" href="{{route('admin.users.index')}}">
+                                Menaxhimi i Përdoruesve
+                            </a>
+                        </li>
+                            @endcan
                         @endguest
                     </ul>
                 </div>

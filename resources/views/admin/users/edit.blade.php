@@ -5,22 +5,23 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Updating User Roles') }}</div>
+                    <div class="card-header">Ndryshim të drejtash për: {{$user->name}} </div>
 
                     <div class="card-body">
                         <form action="{{route('admin.users.update', $user)}}" method="POST">
                             @csrf
-                            {{method_field('PUT')}}
+                            {{ method_field('PUT') }}
 
                             @foreach($roles as $role)
                                 <div class="form-check">
-                                    <input type="checkbox" name="roles[]" value="{$role->id}}">
-                                    <label>{{$role->name}}</label>
+                                    <input type="checkbox" name="roles[]" value="{{ $role->id }}"
+                                    @if($user->roles->pluck('id')->contains($role->id)) checked
+@endif>
+                                    <label>{{ $role->name}}</label>
                                 </div>
-
                             @endforeach
                     <button type="submit" class="btn btn-success">
-                            Update
+                            Ruaj
                     </button>
                         </form>
                     </div>

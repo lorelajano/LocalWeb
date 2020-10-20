@@ -22,8 +22,16 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
+Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('users', UsersController::class)->only([
         'index', 'destroy','edit','update'
     ]);
+});
+
+Route::namespace('User')->prefix('user')->name('user.')->group(function(){
+//    Route::resource('user', UserController::class)->only([
+//        'index', 'destroy','edit','update'
+//    ]);
+
+    Route::match(['get', 'post'], '/upload-id', 'PermissionController@index')->name('upload.id');;
 });
