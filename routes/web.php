@@ -23,8 +23,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
+
+    Route::match(['get','patch'], 'users/{user}/confirmed', 'UsersController@confirmed')->name('users.confirmed');
+    Route::get('users/{filename}', 'UsersController@showId');
     Route::resource('users', UsersController::class)->only([
-        'index', 'destroy','edit','update'
+        'index', 'destroy','edit','update',
     ]);
 });
 

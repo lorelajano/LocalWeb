@@ -36,6 +36,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('admin');
         });
 
+
         Gate::define('age-checked', function($user){
             return $user->checkAge(Auth::user());
         });

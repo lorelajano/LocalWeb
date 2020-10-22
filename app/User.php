@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
+use App\Status;
+
 
 class User extends Authenticatable
 {
@@ -17,6 +19,8 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -47,6 +51,10 @@ class User extends Authenticatable
        return $this->belongsToMany('App\Role');
     }
 
+    public function statuses(){
+        return $this->belongsTo('App\Status','status_id');
+    }
+
     public function hasAnyRoles($roles){
         if($this->roles()->whereIn('name', $roles)->first()){
             return true;
@@ -58,6 +66,7 @@ class User extends Authenticatable
         }return false;
     }
 
+
     public function checkAge($user){
 
         $age = Carbon::parse($this->birthday)->diff(Carbon::now())->format('%y years, %m months and %d days');
@@ -65,4 +74,9 @@ class User extends Authenticatable
             return true;
         }return false;
     }
+
+
+
+
+
 }

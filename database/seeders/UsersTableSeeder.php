@@ -26,18 +26,24 @@ class UsersTableSeeder extends Seeder
         $admin= User::create([
             'name'=>'System Admin',
             'email'=>'admin@admin.al',
-            'password'=>Hash::make('Admin@12345')
+            'password'=>Hash::make('Admin@12345'),
+            'birthday'=>null,
+            'status_id'=>'1',
+
 
         ]);
         $manager= User::create([
             'name'=>'System Manager',
             'email'=>'manager@manager.al',
-            'password'=>Hash::make('Manager@12345')
-
+            'password'=>Hash::make('Manager@12345'),
+            'birthday'=>null,
+            'status_id'=>'1',
         ]);
 
 
         $admin->roles()->attach($adminRole);
         $manager->roles()->attach($managerRole);
+
+
     }
 }

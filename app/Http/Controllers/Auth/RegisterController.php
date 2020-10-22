@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use DateTime;
 use Carbon\Carbon;
 use App\Role;
+use App\Status;
+
 
 class RegisterController extends Controller
 {
@@ -68,17 +70,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $formatbirthday= date('Y-m-d', strtotime(strtr($data['birthday'], '/', '-')));
+        //check if user registered is adult or not and update status
 
+        if((Carbon::parse($formatbirthday)->diff(Carbon::now())->format('%y years, %m months and %d days'))>18){
+            $status= Status::select('id')->where('name', 'confirmed')->first();
+
+        }else {
+            $status= Status::select('id')->where('name', 'pending')->first();
+
+        }
 
         $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'birthday' => date('Y-m-d', strtotime(strtr($data['birthday'], '/', '-')))
+            'birthday' => $formatbirthday,
+            'status_id' =>$status,
+
         ]);
 
         $role= Role::select('id')->where('name', 'user')->first();
         $user->roles()->attach($role);
+
+
         return $user;
     }
 }
