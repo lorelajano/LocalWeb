@@ -15,7 +15,19 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                  Kjo eshte faqe qe mund te aksesohet nga te gjitha rolet:
+                    <ul>
+                        <li>admin</li>
+                        <li>manager</li>
+                        <li>user</li>
+                    </ul>
+
+                        Kjo eshte faqe qe mund te aksesohet nga roli user qe:
+                        <ul>
+                            <li>Ka moshe me te madhe ose te barabarte se 18.</li>
+                            <li>Nese eshte nen moshen 18 , ai perdorues duhet te kete ngarkuar dokumentin ID dhe i eshte aprovuar nga admin/manager.</li>
+
+                        </ul>
                 </div>
             </div>
         </div>

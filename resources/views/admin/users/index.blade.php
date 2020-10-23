@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" >
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
+
+                <div class="card" >
                     <div class="card-header">{{ __('Lista e përdoruesve') }}</div>
 
                     <div class="card-body">
 
-                            <table class="table">
+                            <table class="table w-auto">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">#</th>
@@ -28,11 +28,11 @@
                                     <th scope="row">{{$user->id}}</th>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
-                                    <td>{{$user->birthday}}</td>
+                                    <td>{{ date('d-m-Y', strtotime($user->birthday)) }}</td>
                                     <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray())}}</td>
                                     <td>{{$user->statuses->name}}</td>
 
-                                    <td><?php if (!empty($user->card)): ?><a href="users/{{ $user->card }}"><img src="https://img.icons8.com/wired/64/000000/new-file.png" width="30" height="30"></a> <?php endif; ?></td>
+                                    <td><?php if (!empty($user->card)): ?><a href="users/{{ $user->card }}"><img src="{{URL::asset('images/icon-file.png')}}" alt="Image"/></a> <?php endif; ?></td>
                                     <td>
                                         @can('edit-users')
                                         <a href="{{route('admin.users.edit', $user->id)}}">
@@ -49,7 +49,7 @@
                                         @endcan
                                           @if($user->statuses->name=="processing")
 
-                                            <form action="{{route('admin.users.confirmed', $user)}}" method="PATCH">
+                                            <form action="{{route('admin.users.confirmed', $user)}}" method="PATCH" class="float-left">
                                                 @csrf
                                                 {{ method_field('PUT') }}
                                                 <button type="submit" class="btn btn-success">
@@ -61,11 +61,13 @@
                                     </td>
                                 </tr>
                                 @endforeach
+
+
                                 </tbody>
                             </table>
                     </div>
                 </div>
-            </div>
+
         </div>
     </div>
 @endsection

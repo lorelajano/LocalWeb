@@ -12,6 +12,7 @@ use DateTime;
 use Carbon\Carbon;
 use App\Role;
 use App\Status;
+use DB;
 
 
 class RegisterController extends Controller
@@ -59,6 +60,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'birthday' => ['required'],
+
         ]);
     }
 
@@ -70,26 +72,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $formatbirthday= date('Y-m-d', strtotime(strtr($data['birthday'], '/', '-')));
-        //check if user registered is adult or not and update status
+        $birthday= date('Y-m-d', strtotime(strtr($data['birthday'], '/', '-')));
 
-        if((Carbon::parse($formatbirthday)->diff(Carbon::now())->format('%y years, %m months and %d days'))>18){
-            $status= Status::select('id')->where('name', 'confirmed')->first();
+        //Ne krijim te perdoruesit, nese eshte +18 i asenjohet statusi "confirmed", ne te kundert statusi "pending"
+
+        if((Carbon::parse($birthday)->diff(Carbon::now())->format('%y years, %m months and %d days'))>=18){
+            $status=DB::table('statuses')->select('id')
+                ->where('name', '=', 'confirmed')->first();
 
         }else {
-            $status= Status::select('id')->where('name', 'pending')->first();
-
+            $status=DB::table('statuses')->select('id')
+                ->where('name', '=', 'pending')->first();
         }
+
+        // Krijim te perdoruesit , ku jane shtuar dhe fushat status_id dhe birthday
 
         $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'birthday' => $formatbirthday,
-            'status_id' =>$status,
+            'status_id' =>$status->id,
+            'birthday' => $birthday,
 
         ]);
 
+        //Per cdo perdorues qe regjistrohet nga sistemi, asenjohet automatikisht roli "user"
         $role= Role::select('id')->where('name', 'user')->first();
         $user->roles()->attach($role);
 

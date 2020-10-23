@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('status');
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
 
@@ -31,9 +31,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     ]);
 });
 
-Route::namespace('User')->prefix('user')->name('user.')->group(function(){
-    Route::resource('permission', PermissionController::class)->only([
-        'index', 'create','edit','update'
+Route::namespace('User')->prefix('user')->name('user.')->middleware('can:is-user')->group(function(){
+    Route::get('/{id}/{datetime}', 'PermissionController@updated');
+    Route::get('/processing', 'PermissionController@showProcessing')->middleware('can:is-processing')->name('processing');
+    Route::resource('permission', PermissionController::class)->middleware('can:is-pending')->only([
+        'index', 'update'
     ]);
 
 

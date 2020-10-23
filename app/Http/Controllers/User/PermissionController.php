@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\User;
+use DB;
 
 class PermissionController extends Controller
 {
@@ -15,86 +16,41 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function _construct(){
+        $this->middleware('status');
+    }
+
     public function index(User $user)
+
 
     {
         $user= Auth::user();
         return view('user.index')->with('user', $user);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    //Update te perdoruesit duke shtuar dokumentin ID dhe ndryshimin ne statusin nga "pending" ne "processing"
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id=null)
     {
         $data = $request->all();
+
+        $processing=DB::table('statuses')->select('id')
+            ->where('name', '=', 'processing')->first();
 
         if($request->hasFile('card')) {
             $filename = $request->card->getClientOriginalName();
             $request->card->storeAs('card', $filename);
 
-           User::where(['id'=>$id])->update(['card'=>$filename]);
-
+           User::where(['id'=>$id])->update(['card'=>$filename, 'status_id'=>$processing->id]);
+        }
+        return redirect('/user/processing');
         }
 
-            return redirect()->route('home');
-        }
+     //Shfaq pamjen perdoruesit kur Karta ID eshte ne proces per tu aprovuar
+    public function showProcessing(){
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('user.processing');
     }
+
 }

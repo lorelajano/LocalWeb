@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Carbon\Carbon;
+use DB;
 use App\Status;
 
 
@@ -25,7 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'birthday'
+        'birthday',
+        'status_id',
     ];
 
     /**
@@ -52,7 +53,7 @@ class User extends Authenticatable
     }
 
     public function statuses(){
-        return $this->belongsTo('App\Status','status_id');
+        return $this->belongsTo('App\Status', 'status_id');
     }
 
     public function hasAnyRoles($roles){
@@ -66,17 +67,10 @@ class User extends Authenticatable
         }return false;
     }
 
-
-    public function checkAge($user){
-
-        $age = Carbon::parse($this->birthday)->diff(Carbon::now())->format('%y years, %m months and %d days');
-        if ($age>18){
+public function hasStatus($status){
+        if ($this->statuses->name==$status){
             return true;
-        }return false;
-    }
-
-
-
-
+            }return false;
+}
 
 }

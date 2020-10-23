@@ -30,17 +30,15 @@ class LoginController extends Controller
      */
     //protected $redirectTo = RouteServiceProvider::HOME;
 
+    //Redirektim te perdoruesve ne baze te rolit Admin/Manager dhe User
     public function redirectTo(){
-    if (Auth::user()->hasAnyRoles(['admin', 'manager'])){
+    if (Auth::user()->hasAnyRoles(['admin', 'manager'])) {
         $this->redirectTo = route('admin.users.index');
         return $this->redirectTo;
-    }else if(Auth::user()->checkAge(Auth::user()) > 18){
-    $this->redirectTo = route('home');
-        return $this->redirectTo;
-    }else  $this->redirectTo = route('user.permission.index');
-        return $this->redirectTo;
-
+    }else $this->redirectTo = route('home');
+     return $this->redirectTo;
     }
+
 
     /**
      * Create a new controller instance.

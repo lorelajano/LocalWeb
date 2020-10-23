@@ -22,14 +22,15 @@ class UsersTableSeeder extends Seeder
 
         $adminRole=Role::where('name','admin')->first();
         $managerRole=Role::where('name','manager')->first();
+        $confirmed=DB::table('statuses')->select('id')
+            ->where('name', '=', 'confirmed')->first();
 
         $admin= User::create([
             'name'=>'System Admin',
             'email'=>'admin@admin.al',
             'password'=>Hash::make('Admin@12345'),
             'birthday'=>null,
-            'status_id'=>'1',
-
+            'status_id'=>$confirmed->id,
 
         ]);
         $manager= User::create([
@@ -37,7 +38,7 @@ class UsersTableSeeder extends Seeder
             'email'=>'manager@manager.al',
             'password'=>Hash::make('Manager@12345'),
             'birthday'=>null,
-            'status_id'=>'1',
+            'status_id'=>$confirmed->id,
         ]);
 
 

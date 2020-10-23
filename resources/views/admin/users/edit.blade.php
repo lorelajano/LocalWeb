@@ -23,6 +23,11 @@
                     <button type="submit" class="btn btn-success">
                             Ruaj
                     </button>
+                            <a href="{{route('admin.users.index')}}">
+                            <button type="submit" class="btn btn-primary">
+                                Kthehu
+                            </button>
+                            </a>
                         </form>
                     </div>
                 </div>

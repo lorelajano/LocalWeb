@@ -12,20 +12,15 @@
 
                             @csrf
                             {{ method_field('PUT') }}
-                        <div class="file-upload-inner ts-forms">
-                            <div class="input prepend-big-btn">
-                                <label class="icon-right" for="prepend-big-btn">
-                                    <i class="fa fa-download"></i>
-                                </label>
-                                <div class="file-button">
-                                    Ngarko
-                                    <input type="file" name="card" id="card"  onchange="document.getElementById('prepend-big-btn').value = this.value;">
-                                </div>
-                                <input type="text" id="prepend-big-btn" placeholder="nuk është zgjedhur asnjë doc">
-                            </div>
-                        </div>
 
-                            <button type="submit" class="btn btn-success">Ruaj</button>
+                                <div class="file-button">
+
+                                    <input type="file" name="card" id="card" required >
+                                </div>
+
+                        <button type="submit" class="btn btn-success">Ruaj</button>
+
+
 
                         </form>
                     </div>
