@@ -72,7 +72,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $birthday= date('Y-m-d', strtotime(strtr($data['birthday'], '/', '-')));
+        $birthday= date('Y-m-d', strtotime($data['birthday']));
 
         //Ne krijim te perdoruesit, nese eshte +18 i asenjohet statusi "confirmed", ne te kundert statusi "pending"
 
