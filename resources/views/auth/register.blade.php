@@ -47,7 +47,7 @@
                             <div class="col-md-6">
 
 
-                                <input id="birthday" type="text" class="form-control date @error('email') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" required >
+                                <input id="birthday" type="text" class="form-control date @error('birthday') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" required >
 
 
                                 @error('birthday')
